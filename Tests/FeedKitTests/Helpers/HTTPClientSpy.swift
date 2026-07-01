@@ -5,11 +5,28 @@ import Foundation
 /// so `RemoteFeedLoader` can be driven without real networking.
 final class HTTPClientSpy: HTTPClient {
     private(set) var requestedURLs = [URL]()
-    private var stub: Result<(Data, HTTPURLResponse), Error> = .failure(NSError(domain: "unstubbed", code: 0))
+
+    private enum Stub {
+        case failure(Error)
+        case success(data: Data, statusCode: Int)
+    }
+    private var stub: Stub = .failure(NSError(domain: "unstubbed", code: 0))
 
     func get(from url: URL) async throws -> (Data, HTTPURLResponse) {
         requestedURLs.append(url)
-        return try stub.get()
+        switch stub {
+        case let .failure(error):
+            throw error
+        case let .success(data, statusCode):
+            // Build the response against the URL actually requested, not a
+            // guess made at stub time before any request had happened.
+            let response = HTTPURLResponse(
+                url: url,
+                statusCode: statusCode,
+                httpVersion: nil,
+                headerFields: nil)!
+            return (data, response)
+        }
     }
 
     func stub(error: Error) {
@@ -17,11 +34,6 @@ final class HTTPClientSpy: HTTPClient {
     }
 
     func stub(withStatusCode code: Int, data: Data) {
-        let response = HTTPURLResponse(
-            url: requestedURLs.last ?? URL(string: "https://any-url.com")!,
-            statusCode: code,
-            httpVersion: nil,
-            headerFields: nil)!
-        stub = .success((data, response))
+        stub = .success(data: data, statusCode: code)
     }
 }
