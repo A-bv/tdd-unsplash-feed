@@ -39,6 +39,20 @@ final class RemoteFeedLoaderTests: XCTestCase {
         }
     }
 
+    func test_load_doesNotMapCancellationToConnectivity() async {
+        let (sut, client) = makeSUT()
+        client.stub(error: URLError(.cancelled))
+
+        do {
+            _ = try await sut.load()
+            XCTFail("Expected cancellation to propagate")
+        } catch is CancellationError {
+            // success: cancellation surfaced as cancellation
+        } catch {
+            XCTFail("Expected CancellationError, got \(error) instead")
+        }
+    }
+
     func test_load_deliversInvalidDataErrorOnNon200HTTPResponse() async {
         let (sut, client) = makeSUT()
         let samples = [199, 201, 300, 400, 500]
