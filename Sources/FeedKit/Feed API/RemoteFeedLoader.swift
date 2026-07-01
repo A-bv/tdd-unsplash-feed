@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// Loads the Unsplash feed over HTTP.
 public final class RemoteFeedLoader: FeedLoader {

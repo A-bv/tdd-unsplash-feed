@@ -1,4 +1,7 @@
 import XCTest
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 @testable import FeedKit
 
 /// End-to-end test against the *real* Unsplash API.

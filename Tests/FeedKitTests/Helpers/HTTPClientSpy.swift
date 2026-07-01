@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 @testable import FeedKit
 
 /// Test double that records requested URLs and returns a stubbed result,

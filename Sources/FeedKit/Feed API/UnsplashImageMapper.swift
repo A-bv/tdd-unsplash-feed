@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// Maps a raw HTTP response from the Unsplash `/photos` endpoint into the
 /// domain `[UnsplashImage]`, isolating the API's JSON shape from the rest

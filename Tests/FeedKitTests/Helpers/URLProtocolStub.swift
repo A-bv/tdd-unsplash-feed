@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// Intercepts URL loading so `URLSessionHTTPClient` can be tested against
 /// canned responses instead of the real network.

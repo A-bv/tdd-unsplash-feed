@@ -1,4 +1,7 @@
 import XCTest
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 @testable import FeedKit
 
 /// Integration tests for the composition root. These drive the *real*

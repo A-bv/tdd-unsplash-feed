@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// `HTTPClient` backed by `URLSession`. This is the only place in the
 /// package that talks to the real network.

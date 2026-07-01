@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// Composition root: assembles the pieces into a ready-to-use `FeedLoader`
 /// backed by the live Unsplash API.

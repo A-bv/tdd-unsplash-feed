@@ -1,4 +1,7 @@
 import XCTest
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension XCTestCase {
     /// Fails the test if `instance` has not been deallocated by teardown,
