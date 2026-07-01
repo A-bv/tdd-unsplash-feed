@@ -92,6 +92,23 @@ final class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertEqual(result, [item1.model, item2.model])
     }
 
+    func test_load_fallsBackToAltDescriptionWhenDescriptionIsNull() async throws {
+        let (sut, client) = makeSUT()
+        // Unsplash leaves `description` null for most photos; the
+        // human-readable text lives in `alt_description`.
+        let json: [String: Any] = [
+            "id": "id",
+            "alt_description": "A misty forest at dawn",
+            "urls": ["regular": "https://images.unsplash.com/photo"],
+            "user": ["name": "Author"]
+        ]
+        client.stub(withStatusCode: 200, data: makeItemsJSON([json]))
+
+        let result = try await sut.load()
+
+        XCTAssertEqual(result.first?.description, "A misty forest at dawn")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
