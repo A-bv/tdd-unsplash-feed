@@ -21,13 +21,16 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
 
     func test_getFromURL_failsOnRequestError() async {
-        URLProtocolStub.stub(data: nil, response: nil, error: anyNSError())
+        let injectedError = anyNSError()
+        URLProtocolStub.stub(data: nil, response: nil, error: injectedError)
 
         do {
             _ = try await makeSUT().get(from: anyURL())
-            XCTFail("Expected request to fail")
+            XCTFail("Expected request to fail with \(injectedError)")
         } catch {
-            // success: any error surfaced
+            let nsError = error as NSError
+            XCTAssertEqual(nsError.domain, injectedError.domain)
+            XCTAssertEqual(nsError.code, injectedError.code)
         }
     }
 
