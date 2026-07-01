@@ -12,5 +12,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "FeedKit"),
+        .testTarget(name: "FeedKitTests", dependencies: ["FeedKit"]),
     ]
 )
