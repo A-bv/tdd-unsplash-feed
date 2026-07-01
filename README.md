@@ -67,9 +67,12 @@ Add the package in `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/<your-org>/FeedKit.git", from: "1.0.0")
+    .package(url: "https://github.com/A-bv/Feedkit.git", branch: "main")
 ]
 ```
+
+> No versioned release is published yet, so the example pins the `main`
+> branch. Once a release is tagged, switch to `from: "1.0.0"`.
 
 Requires **Swift 5.9+**, macOS 12+ / iOS 15+ (for `async`/`await` `URLSession`).
 
