@@ -6,7 +6,7 @@ import Foundation
 /// tested without hitting the real Unsplash servers, and lets the concrete
 /// networking technology (URLSession today, something else tomorrow) change
 /// without touching the loader.
-public protocol HTTPClient {
+public protocol HTTPClient: Sendable {
     /// Returns the response body and the HTTP response, or throws on
     /// connectivity failure.
     func get(from url: URL) async throws -> (Data, HTTPURLResponse)

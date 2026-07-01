@@ -3,7 +3,11 @@ import Foundation
 
 /// Test double that records requested URLs and returns a stubbed result,
 /// so `RemoteFeedLoader` can be driven without real networking.
-final class HTTPClientSpy: HTTPClient {
+///
+/// `@unchecked Sendable`: `HTTPClient` requires `Sendable`, and this spy
+/// holds mutable state. It's only ever driven serially from a single test,
+/// so the unchecked assertion is safe here.
+final class HTTPClientSpy: HTTPClient, @unchecked Sendable {
     private(set) var requestedURLs = [URL]()
 
     private enum Stub {

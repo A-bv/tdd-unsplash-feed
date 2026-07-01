@@ -16,7 +16,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FeedKit"),
+            name: "FeedKit",
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
         .testTarget(
             name: "FeedKitTests",
             dependencies: ["FeedKit"]),
