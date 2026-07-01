@@ -13,16 +13,24 @@ public final class RemoteFeedLoader: FeedLoader {
     private struct RemoteImage: Decodable {
         let id: String
         let description: String?
+        let altDescription: String?
         let urls: URLs
         let user: User
 
         struct URLs: Decodable { let regular: URL }
         struct User: Decodable { let name: String }
 
+        enum CodingKeys: String, CodingKey {
+            case id, description, urls, user
+            case altDescription = "alt_description"
+        }
+
         var model: UnsplashImage {
+            // Unsplash usually leaves `description` null and carries the
+            // human-readable text in `alt_description`; fall back to it.
             UnsplashImage(
                 id: id,
-                description: description,
+                description: description ?? altDescription,
                 url: urls.regular,
                 authorName: user.name)
         }
