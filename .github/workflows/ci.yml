@@ -7,9 +7,25 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Build & Test
+  macos:
+    name: Build & Test (macOS)
     runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Swift version
+        run: swift --version
+
+      - name: Build
+        run: swift build -v
+
+      - name: Run tests
+        run: swift test -v
+
+  linux:
+    name: Build & Test (Linux)
+    runs-on: ubuntu-latest
+    container: swift:5.9
     steps:
       - uses: actions/checkout@v4
 

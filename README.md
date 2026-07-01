@@ -93,7 +93,7 @@ dependencies: [
 > No versioned release is published yet, so the example pins the `main`
 > branch. Once a release is tagged, switch to `from: "1.0.0"`.
 
-Requires **Swift 5.9+**, macOS 12+ / iOS 15+ (for `async`/`await` `URLSession`).
+Requires **Swift 5.9+**. It's pure Foundation (no UIKit), so it runs on macOS 12+, iOS 15+, tvOS 15+, watchOS 8+, and Linux. macOS and Linux are exercised in CI.
 
 ## Running the tests
 
