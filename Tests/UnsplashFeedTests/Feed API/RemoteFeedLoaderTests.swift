@@ -52,6 +52,46 @@ final class RemoteFeedLoaderTests: XCTestCase {
         }
     }
 
+    func test_load_deliversInvalidDataErrorOn200ResponseWithInvalidJSON() async {
+        let (sut, client) = makeSUT()
+        client.stub(withStatusCode: 200, data: Data("invalid json".utf8))
+
+        await assertThrows(RemoteFeedLoader.Error.invalidData) {
+            _ = try await sut.load()
+        }
+    }
+
+    func test_load_deliversNoItemsOn200ResponseWithEmptyJSONList() async throws {
+        let (sut, client) = makeSUT()
+        client.stub(withStatusCode: 200, data: makeItemsJSON([]))
+
+        let result = try await sut.load()
+
+        XCTAssertEqual(result, [])
+    }
+
+    func test_load_deliversItemsOn200ResponseWithJSONItems() async throws {
+        let (sut, client) = makeSUT()
+
+        let item1 = makeItem(
+            id: "id-1",
+            description: nil,
+            url: URL(string: "https://images.unsplash.com/photo-1")!,
+            authorName: "Author One")
+
+        let item2 = makeItem(
+            id: "id-2",
+            description: "A lovely landscape",
+            url: URL(string: "https://images.unsplash.com/photo-2")!,
+            authorName: "Author Two")
+
+        client.stub(withStatusCode: 200, data: makeItemsJSON([item1.json, item2.json]))
+
+        let result = try await sut.load()
+
+        XCTAssertEqual(result, [item1.model, item2.model])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -64,6 +104,24 @@ final class RemoteFeedLoaderTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
+    }
+
+    private func makeItem(
+        id: String,
+        description: String?,
+        url: URL,
+        authorName: String
+    ) -> (model: UnsplashImage, json: [String: Any]) {
+        let model = UnsplashImage(id: id, description: description, url: url, authorName: authorName)
+
+        var json: [String: Any] = [
+            "id": id,
+            "urls": ["regular": url.absoluteString],
+            "user": ["name": authorName]
+        ]
+        if let description { json["description"] = description }
+
+        return (model, json)
     }
 
     private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
