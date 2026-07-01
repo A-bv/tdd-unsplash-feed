@@ -1,5 +1,7 @@
 # FeedKit
 
+[![CI](https://github.com/A-bv/Feedkit/actions/workflows/ci.yml/badge.svg)](https://github.com/A-bv/Feedkit/actions/workflows/ci.yml)
+
 A small Swift package that loads an image feed from the [Unsplash API](https://unsplash.com/developers) — built **strictly with Test-Driven Development (TDD)** as a learning exercise.
 
 The point of this repo is less the feature itself and more the **method**: every line of production code exists because a failing test demanded it, following the **Red → Green → Refactor** cycle.
@@ -14,9 +16,26 @@ It's a hands-on demonstration of the TDD workflow popularised by [Essential Deve
 
 The result is a decoupled, fully tested networking feature with zero test code leaking into the shipped library.
 
+**Read it through its commits.** Every behaviour was added as a failing test plus the minimum code to pass it, so the history *is* the design. Browse the [commit history](https://github.com/A-bv/Feedkit/commits/main) or the step-by-step [TDD walkthrough](TDD-WALKTHROUGH.md).
+
 ## Architecture
 
 The package is organised by feature concern, depending on abstractions rather than concretions:
+
+```mermaid
+flowchart TD
+    App["Your app"] --> FeedLoader["FeedLoader (protocol)"]
+    FeedLoader -.implemented by.-> RemoteFeedLoader
+    RemoteFeedLoader --> HTTPClient["HTTPClient (protocol)"]
+    RemoteFeedLoader --> UnsplashImageMapper
+    HTTPClient -.implemented by.-> URLSessionHTTPClient
+    URLSessionHTTPClient --> Unsplash(["Unsplash API"])
+    Root["FeedKit factory<br/>(composition root)"] --> RemoteFeedLoader
+    Root --> URLSessionHTTPClient
+    Root --> UnsplashEndpoint
+```
+
+The full layout:
 
 ```
 Sources/FeedKit
