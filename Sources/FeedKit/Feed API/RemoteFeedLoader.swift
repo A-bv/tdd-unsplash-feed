@@ -20,6 +20,10 @@ public final class RemoteFeedLoader: FeedLoader {
         let response: HTTPURLResponse
         do {
             (data, response) = try await client.get(from: url)
+        } catch is CancellationError {
+            throw CancellationError()
+        } catch let error as URLError where error.code == .cancelled {
+            throw CancellationError()
         } catch {
             throw Error.connectivity
         }
