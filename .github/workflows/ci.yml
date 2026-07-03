@@ -6,34 +6,38 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   macos:
     name: Build & Test (macOS)
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Show Swift version
         run: swift --version
 
       - name: Build
-        run: swift build -v
+        run: swift build
 
       - name: Run tests
-        run: swift test -v
+        run: swift test
 
   linux:
     name: Build & Test (Linux)
     runs-on: ubuntu-latest
     container: swift:6.0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Show Swift version
         run: swift --version
 
       - name: Build
-        run: swift build -v
+        run: swift build
 
       - name: Run tests
-        run: swift test -v
+        run: swift test
