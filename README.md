@@ -35,6 +35,8 @@ The result is a decoupled, fully tested networking feature with zero test code l
 
 **Read it through its commits.** Every behaviour was added as a failing test plus the minimum code to pass it, so the history *is* the design. Browse the [commit history](https://github.com/A-bv/Feedkit/commits/main) or the step-by-step [TDD walkthrough](TDD-WALKTHROUGH.md).
 
+The senior engineering decisions behind it — and what was deliberately left out, and why — are recorded in [DECISIONS.md](DECISIONS.md).
+
 ## Architecture
 
 The package is organised by feature concern, depending on abstractions rather than concretions:
