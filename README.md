@@ -6,6 +6,23 @@ A small Swift package that loads an image feed from the [Unsplash API](https://u
 
 The point of this repo is less the feature itself and more the **method**: every line of production code exists because a failing test demanded it, following the **Red → Green → Refactor** cycle.
 
+## Quickstart
+
+1. **Get a free Unsplash key** — register an app at [unsplash.com/oauth/applications](https://unsplash.com/oauth/applications) and copy the *Access Key* (about a minute).
+2. **Add the package** in your `Package.swift`:
+   ```swift
+   .package(url: "https://github.com/A-bv/Feedkit.git", from: "1.0.0")
+   ```
+3. **Load the feed:**
+   ```swift
+   import FeedKit
+
+   let loader = FeedKit.makeRemoteFeedLoader(accessKey: "YOUR_ACCESS_KEY")
+   let images = try await loader.load()   // [UnsplashImage]
+   ```
+
+No key is needed to build or test the package itself — the suite runs fully offline.
+
 ## Why this project exists
 
 It's a hands-on demonstration of the TDD workflow popularised by [Essential Developer](https://www.essentialdeveloper.com/):
