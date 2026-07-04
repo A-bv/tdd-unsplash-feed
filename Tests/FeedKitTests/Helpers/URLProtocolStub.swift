@@ -12,8 +12,10 @@ final class URLProtocolStub: URLProtocol {
         let error: Error?
     }
 
-    private static var stub: Stub?
-    private static var requestObserver: ((URLRequest) -> Void)?
+    // Written by the test thread before a request runs and read by URLProtocol
+    // on the loading thread; access is ordered, not concurrent.
+    nonisolated(unsafe) private static var stub: Stub?
+    nonisolated(unsafe) private static var requestObserver: ((URLRequest) -> Void)?
 
     static func stub(data: Data?, response: URLResponse?, error: Error?) {
         stub = Stub(data: data, response: response, error: error)

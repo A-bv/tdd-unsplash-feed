@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -17,9 +17,7 @@ let package = Package(
             targets: ["FeedKit"]),
     ],
     targets: [
-        .target(
-            name: "FeedKit",
-            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
+        .target(name: "FeedKit"),
         .testTarget(
             name: "FeedKitTests",
             dependencies: ["FeedKit"]),

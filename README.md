@@ -107,7 +107,7 @@ dependencies: [
 ]
 ```
 
-Requires **Swift 5.9+**. It's pure Foundation (no UIKit), so it runs on macOS 12+, iOS 15+, tvOS 15+, watchOS 8+, and Linux. macOS and Linux are exercised in CI.
+Requires **Swift 6+**. It's pure Foundation (no UIKit), so it runs on macOS 12+, iOS 15+, tvOS 15+, watchOS 8+, and Linux. macOS and Linux are exercised in CI.
 
 ## Running the tests
 
