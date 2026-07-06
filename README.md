@@ -2,6 +2,12 @@
 
 Load a photo feed from [Unsplash](https://unsplash.com/developers) in a few lines of Swift — and, more to the point, **see how it was built test-first (TDD)**.
 
+[![CI](https://github.com/A-bv/tdd-unsplash-feed/actions/workflows/ci.yml/badge.svg)](https://github.com/A-bv/tdd-unsplash-feed/actions/workflows/ci.yml)
+![Swift 5.9](https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white)
+![iOS 15+ | macOS 12+](https://img.shields.io/badge/platform-iOS%2015%2B%20%7C%20macOS%2012%2B-007AFF?logo=apple&logoColor=white)
+![SPM](https://img.shields.io/badge/SPM-compatible-success)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
+
 This is a teaching repo. Fetching Unsplash photos is just the vehicle; the value is the method and the clean, testable design that TDD produces.
 
 ## What you get back
@@ -19,15 +25,21 @@ public struct UnsplashImage: Equatable {
 
 ## Install
 
-Swift Package Manager — add to your `Package.swift`:
+Swift Package Manager. In Xcode, **File ▸ Add Package Dependencies…** and paste the URL:
 
-```swift
-.package(url: "https://github.com/A-bv/tdd-unsplash-feed.git", branch: "main")
+```
+https://github.com/A-bv/tdd-unsplash-feed
 ```
 
-Or in Xcode: **File → Add Package Dependencies…** and paste that URL.
+or declare it in `Package.swift`:
 
-## Use it
+```swift
+.package(url: "https://github.com/A-bv/tdd-unsplash-feed.git", from: "1.0.0")
+```
+
+Requires iOS 15+ / macOS 12+ (uses `async` `URLSession`). Apple platforms.
+
+## Usage
 
 ```swift
 import UnsplashFeed
@@ -95,14 +107,6 @@ git log --oneline --reverse
 
 Each commit is one Red→Green→Refactor step. Only the last two — this README and CI — are marked **non-TDD**.
 
-## Run the tests
-
-```bash
-swift test
-```
-
-16 tests, fully offline: the network is faked with a `URLProtocol`/spy stub, so no key or internet is needed.
-
 ## The design TDD produced
 
 Writing tests first forced clean seams:
@@ -111,10 +115,14 @@ Writing tests first forced clean seams:
 - **One place touches the network** (`URLSessionHTTPClient`); **one place parses JSON** (`UnsplashImageMapper`).
 - **Typed errors** (`.connectivity`, `.invalidData`) instead of leaking raw `NSError`.
 
-## Requirements
+## Tests
 
-iOS 15+ / macOS 12+ (uses `async` `URLSession`). Apple platforms.
+```bash
+swift test
+```
+
+16 tests, fully offline: the network is faked with a `URLProtocol`/spy stub, so no key or internet is needed.
 
 ## License
 
-[MIT](LICENSE).
+MIT. See [LICENSE](LICENSE).
