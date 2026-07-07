@@ -8,6 +8,10 @@ Load a photo feed from [Unsplash](https://unsplash.com/developers) in a few line
 ![SPM](https://img.shields.io/badge/SPM-compatible-success)
 [![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
+<p align="center">
+  <img src=".github/demo.gif" alt="A sample app loading a photo feed from Unsplash" width="300">
+</p>
+
 This is a teaching repo. Fetching Unsplash photos is just the vehicle; the value is the method and the clean, testable design that TDD produces.
 
 ## What you get back
