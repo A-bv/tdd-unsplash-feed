@@ -12,5 +12,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "UnsplashFeed"),
+        .testTarget(name: "UnsplashFeedTests", dependencies: ["UnsplashFeed"]),
     ]
 )
