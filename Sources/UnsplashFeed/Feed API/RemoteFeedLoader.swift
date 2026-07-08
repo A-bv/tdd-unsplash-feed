@@ -7,6 +7,7 @@ public final class RemoteFeedLoader: FeedLoader {
 
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
 
     public init(url: URL, client: HTTPClient) {
@@ -15,10 +16,15 @@ public final class RemoteFeedLoader: FeedLoader {
     }
 
     public func load() async throws -> [UnsplashImage] {
+        let response: HTTPURLResponse
         do {
-            _ = try await client.get(from: url)
+            (_, response) = try await client.get(from: url)
         } catch {
             throw Error.connectivity
+        }
+
+        guard response.statusCode == 200 else {
+            throw Error.invalidData
         }
         return []
     }
