@@ -30,6 +30,15 @@ final class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
 
+    func test_load_deliversConnectivityErrorOnClientError() async {
+        let (sut, client) = makeSUT()
+        client.stub(error: anyNSError())
+
+        await assertThrows(RemoteFeedLoader.Error.connectivity) {
+            _ = try await sut.load()
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -46,5 +55,21 @@ final class RemoteFeedLoaderTests: XCTestCase {
 
     private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
         try! JSONSerialization.data(withJSONObject: items)
+    }
+
+    private func assertThrows<T>(
+        _ expectedError: RemoteFeedLoader.Error,
+        file: StaticString = #filePath,
+        line: UInt = #line,
+        when action: () async throws -> T
+    ) async {
+        do {
+            _ = try await action()
+            XCTFail("Expected to throw \(expectedError), but returned successfully", file: file, line: line)
+        } catch let error as RemoteFeedLoader.Error {
+            XCTAssertEqual(error, expectedError, file: file, line: line)
+        } catch {
+            XCTFail("Expected \(expectedError), got \(error) instead", file: file, line: line)
+        }
     }
 }
