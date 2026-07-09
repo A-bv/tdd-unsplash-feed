@@ -99,6 +99,8 @@ The whole feature was built this way. Read the [commit history](https://github.c
 - 🟢 a feat commit that makes it pass
 - 🔵 a refactor commit that tidies up
 
+> A detail caught while reviewing the history: the test doubles, the spy and the stub, were first added in the green commits. In strict TDD that scaffolding belongs in the red commit, next to the test that needs it, so a green commit only ever adds the code that makes the test pass. Spotting small things like this is exactly what a test-first habit trains you to do.
+
 ## Tests
 
 Run `swift test`. The 16 tests are fully offline. The network is faked with a stub, so no key or internet is needed.
