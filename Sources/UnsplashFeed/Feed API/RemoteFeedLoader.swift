@@ -5,13 +5,21 @@ public final class RemoteFeedLoader: FeedLoader {
     private let url: URL
     private let client: HTTPClient
 
+    public enum Error: Swift.Error {
+        case connectivity
+    }
+
     public init(url: URL, client: HTTPClient) {
         self.url = url
         self.client = client
     }
 
     public func load() async throws -> [UnsplashImage] {
-        _ = try await client.get(from: url)
+        do {
+            _ = try await client.get(from: url)
+        } catch {
+            throw Error.connectivity
+        }
         return []
     }
 }
