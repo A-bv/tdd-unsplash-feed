@@ -8,11 +8,18 @@ A small Swift package that loads a photo feed from the [Unsplash API](https://un
 ![SPM](https://img.shields.io/badge/SPM-compatible-success)
 [![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
-<p align="center">
-  <img src=".github/demo.gif" alt="A sample iOS app loading a photo feed from Unsplash" width="300">
-  <br>
-  <em>The package running in a sample iOS app.</em>
-</p>
+<table align="center">
+  <tr>
+    <td align="center" valign="top">
+      <img src=".github/demo.gif" width="200" alt="The package running in a sample iOS app"><br>
+      <sub><em>iOS, a scrolling feed</em></sub>
+    </td>
+    <td align="center" valign="top">
+      <img src=".github/tdd-pkg-macos.png" width="470" alt="The package running in a sample macOS app"><br>
+      <sub><em>macOS, a grid gallery</em></sub>
+    </td>
+  </tr>
+</table>
 
 ## Install
 
