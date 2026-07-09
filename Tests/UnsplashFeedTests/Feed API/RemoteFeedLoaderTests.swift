@@ -39,6 +39,19 @@ final class RemoteFeedLoaderTests: XCTestCase {
         }
     }
 
+    func test_load_deliversInvalidDataErrorOnNon200HTTPResponse() async {
+        let (sut, client) = makeSUT()
+        let samples = [199, 201, 300, 400, 500]
+
+        for code in samples {
+            client.stub(withStatusCode: code, data: makeItemsJSON([]))
+
+            await assertThrows(RemoteFeedLoader.Error.invalidData) {
+                _ = try await sut.load()
+            }
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
