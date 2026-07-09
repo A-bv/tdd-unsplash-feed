@@ -109,3 +109,5 @@ Run `swift test`. The 16 tests are fully offline. The network is faked with a st
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+<sub>Unofficial. Not affiliated with or endorsed by Unsplash.</sub>
